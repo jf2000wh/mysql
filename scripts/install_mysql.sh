@@ -100,8 +100,8 @@ function Configure {
     chown -R mysql:mysql $MYSQL_LOCATION
 
     #Add port to firewall
-    firewall-cmd --zone=public --add-port=3306/tcp --permanent > /dev/null
-    firewall-cmd --reload > /dev/null
+    #firewall-cmd --zone=public --add-port=3306/tcp --permanent > /dev/null
+    #firewall-cmd --reload > /dev/null
     
     #Restore the data file to /data/3306/data
     rm -rf /data/3306
@@ -178,7 +178,7 @@ restart)
 esac
 EOF
 
-    chown -R mysql:mysql /data
+    chown -R mysql:mysql /data/3306
     find /data -name mysql -exec chmod 700 {} \;
 
     echo 'export PATH=$PATH:/usr/local/mysql/bin' >>/etc/profile
@@ -195,7 +195,6 @@ function Startup {
     /data/3306/mysql start
     sleep 15
 
-    source /etc/profile
     source /etc/profile
 
     CHECK_MYSQL_START=`netstat -lntp | grep 3306`
